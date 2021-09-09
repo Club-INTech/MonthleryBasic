@@ -1,6 +1,7 @@
 import com.sun.tools.javac.Main
 
 plugins {
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
     id 'java'
 }
 
@@ -17,6 +18,26 @@ dependencies {
     implementation group: 'net.java.jinput', name: 'jinput', version: '2.0.5'
     implementation group: 'com.fazecast', name: 'jSerialComm', version: '1.3.10'
 
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Main'
+    }
+}
+
+task testJar(type: Jar) {
+    manifest {
+        attributes 'Description': 'Monthlery Basic'
+        attributes 'Main-Class': 'Main'
+    }
+}
+
+shadowJar {
+    manifest {
+        inheritFrom project.tasks.testJar.manifest
+    }
 }
 
 test {
