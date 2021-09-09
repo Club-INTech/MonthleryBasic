@@ -14,7 +14,7 @@ public class Model {
     private HammerSetPosition hammerSetPosition;
     private HammersPosition hammersPosition;
 
-    private boolean mustSend = false;
+    private boolean mustSend = true;
 
     public Model() {
         this.state = ModelState.NONE;
@@ -76,7 +76,7 @@ public class Model {
                 this.state = ModelState.NONE;
             }
         }
-        this.mustSend = (this.state == this.previousState);
+        this.mustSend = (this.state != this.previousState);
         this.previousState = this.state;
     }
 

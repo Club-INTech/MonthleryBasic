@@ -31,7 +31,7 @@ public class ModelInteractiveTest {
             try {
                 joystick.update();
                 model.update(joystick.getX(), joystick.getY(), joystick.getButtonsState());
-                System.out.println(model.getState());
+                System.out.println("state: " + model.getState() + "; send: " + model.mustSend());
                 Thread.sleep(20);
             } catch(Exception ex) {
                 ex.printStackTrace();

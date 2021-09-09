@@ -53,19 +53,19 @@ public class Connection {
 
     public void moveHammerSet(HammerSetPosition position) throws IOException{
         if(position == HammerSetPosition.LOW) {
-            sendString("arms 0");
+            sendString("lower_dxl");
         }
         else if(position == HammerSetPosition.HIGH) {
-            sendString("arms 1");
+            sendString("raise_dxl");
         }
     }
 
     public void moveHammers(HammersPosition position) throws IOException {
         if(position == HammersPosition.LOW) {
-            sendString("hammers 0");
+            sendString("lower_hammers");
         }
         else if(position == HammersPosition.HIGH) {
-            sendString("hammers 1");
+            sendString("raise_hammers");
         }
     }
 
