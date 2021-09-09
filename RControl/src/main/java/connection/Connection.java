@@ -6,15 +6,24 @@ import emulator.HammersPosition;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
+import static com.fazecast.jSerialComm.SerialPort.TIMEOUT_SCANNER;
+
 public class Connection {
-    private OutputStream outputStream;
+    private PrintStream printStream;
     private SerialPort port;
 
     public Connection(String portDescriptor) {
         this.port = SerialPort.getCommPort(portDescriptor);
-        this.outputStream = this.port.getOutputStream();
+        System.out.println(this.port.getSystemPortName());
+        this.port.setBaudRate(115200);
+        port.setNumStopBits(1);
+        port.setParity(0);
+        port.setNumDataBits(8);
+        port.setComPortTimeouts(TIMEOUT_SCANNER, 0, 0);
+        this.printStream = new PrintStream(this.port.getOutputStream());
     }
 
     public boolean close() {
@@ -22,7 +31,8 @@ public class Connection {
     }
 
     private void sendString(String message) throws IOException {
-        this.outputStream.write(message.getBytes(StandardCharsets.UTF_8));
+        this.printStream.println(message);
+        this.printStream.flush();
     }
 
     public void sendTranslation(float speed) throws IOException {
@@ -57,5 +67,9 @@ public class Connection {
         else if(position == HammersPosition.HIGH) {
             sendString("hammers 1");
         }
+    }
+
+    public void sendStop() throws IOException {
+        sendString("sstop");
     }
 }

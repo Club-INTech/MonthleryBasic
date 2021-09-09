@@ -1,6 +1,6 @@
 package controllers;
 
-import exception.ButtonDoesNotExistException;
+
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
 
@@ -16,6 +16,7 @@ public class Joystick {
     private final Controller controller;
 
     private List<Boolean> buttonsState;
+
 
     public Joystick() {
         this.controller = null;
@@ -36,7 +37,7 @@ public class Joystick {
             return false;
         }
         Arrays.stream(controller.getComponents()).forEach(component -> {
-            if (component.getName().contains("Button")) {
+            if (component.getName().equals("A") || component.getName().equals("B") || component.getName().equals("X") || component.getName().equals("Y")) {
                 buttonsState.add(component.getPollData() == 1.0f ? Boolean.TRUE : Boolean.FALSE);
             }
         });
@@ -45,11 +46,11 @@ public class Joystick {
 
     public float getX() {
         assert controller != null;
-        return controller.getComponent(Component.Identifier.Axis.X).getPollData();
+        return -controller.getComponent(Component.Identifier.Axis.Y).getPollData();
     }
     public float getY() {
         assert controller != null;
-        return controller.getComponent(Component.Identifier.Axis.RY).getPollData();
+        return controller.getComponent(Component.Identifier.Axis.RX).getPollData();
     }
 
     public List<Boolean> getButtonsState() {

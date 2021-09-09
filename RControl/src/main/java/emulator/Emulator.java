@@ -43,6 +43,11 @@ public class Emulator {
             try {
                 joystick.update();
                 model.update(joystick.getX(), joystick.getY(), joystick.getButtonsState());
+                if(!model.mustSend()) {
+                    Thread.sleep(this.emulationPeriod);
+                    continue;
+                }
+                connection.sendStop();
                 switch (model.getState()) {
                     case MOVEMENT -> {
                         connection.sendTranslation(model.getTranslationSpeed());
@@ -64,6 +69,7 @@ public class Emulator {
                 Thread.sleep(this.emulationPeriod);
             } catch (Exception ex) {
                 System.out.println("Exception occurred: " + ex.getMessage());
+                connection.close();
                 break;
             }
 

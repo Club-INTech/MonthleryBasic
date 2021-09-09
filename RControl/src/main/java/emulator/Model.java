@@ -10,11 +10,15 @@ public class Model {
     private float rotationSpeed;
 
     private ModelState state;
+    private ModelState previousState;
     private HammerSetPosition hammerSetPosition;
     private HammersPosition hammersPosition;
 
+    private boolean mustSend = false;
+
     public Model() {
         this.state = ModelState.NONE;
+        this.previousState = ModelState.NONE;
         this.translationSpeed = 0.0f;
         this.rotationSpeed = 0.0f;
         hammerSetPosition = HammerSetPosition.LOW;
@@ -24,7 +28,7 @@ public class Model {
     public void update(float x, float y, List<Boolean> buttonsState) {
         switch (this.state) {
             case NONE -> {
-                if(Math.abs(x) >= Math.abs(y)) {
+                if(Math.abs(x) > Math.abs(y)) {
                     if(Math.abs(x) >= EPS) {
                         this.state = ModelState.MOVEMENT;
                         this.translationSpeed =  600 * (x / Math.abs(x));
@@ -72,11 +76,16 @@ public class Model {
                 this.state = ModelState.NONE;
             }
         }
-
+        this.mustSend = (this.state == this.previousState);
+        this.previousState = this.state;
     }
 
     public ModelState getState() {
         return this.state;
+    }
+
+    public boolean mustSend() {
+        return this.mustSend;
     }
 
     public float getTranslationSpeed() {
