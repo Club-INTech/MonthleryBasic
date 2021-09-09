@@ -35,7 +35,7 @@ public class Emulator {
     }
 
     public void initConnection() {
-        this.connection = new Connection("COM0");
+        this.connection = new Connection("/dev/ttyACM0");
     }
 
     public void emulate() {

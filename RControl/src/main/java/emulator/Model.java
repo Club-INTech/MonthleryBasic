@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Model {
 
-    private final float EPS = 0.3f;
+    private final float EPS = 0.8f;
 
     private float translationSpeed;
     private float rotationSpeed;

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 import static com.fazecast.jSerialComm.SerialPort.TIMEOUT_SCANNER;
 
@@ -17,12 +18,19 @@ public class Connection {
 
     public Connection(String portDescriptor) {
         this.port = SerialPort.getCommPort(portDescriptor);
-        System.out.println(this.port.getSystemPortName());
         this.port.setBaudRate(115200);
         port.setNumStopBits(1);
         port.setParity(0);
         port.setNumDataBits(8);
         port.setComPortTimeouts(TIMEOUT_SCANNER, 0, 0);
+        while(!port.openPort()) {
+            System.out.println("Trying to reconnect to the port /dev/ttyACM0 each 0.5s");
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
         this.printStream = new PrintStream(this.port.getOutputStream());
     }
 
