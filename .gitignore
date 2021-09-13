@@ -20,7 +20,7 @@
 *.tar.gz
 *.rar
 
-**/.gradle/
+**/**/.gradle/
 **/build/
 !src/**/build/
 
