@@ -31,7 +31,7 @@ public class Model {
                 if(Math.abs(x) > Math.abs(y)) {
                     if(Math.abs(x) >= EPS) {
                         this.state = ModelState.MOVEMENT;
-                        this.translationSpeed =  600 * (x / Math.abs(x));
+                        this.translationSpeed =  -600 * (x / Math.abs(x));
                     }
                 }
                 else if(Math.abs(x) < Math.abs(y)) {
